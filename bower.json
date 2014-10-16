@@ -1,0 +1,16 @@
+{
+  "name": "formSubmit",
+  "version": "0.0.0",
+  "authors": [
+    "ddhp <sevenknee@gmail.com>"
+  ],
+  "description": "simple form submit",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
