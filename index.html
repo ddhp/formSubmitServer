@@ -7,7 +7,10 @@
   <script src="lib/angularjs/angular.js" type="text/javascript" charset="utf-8"></script>
   <script src="lib/jquery/dist/jquery.min.js" type="text/javascript" charset="utf-8"></script>
   <link rel="stylesheet" type="text/css" href="lib/bootstrap/dist/css/bootstrap.min.css" />
+
+  <!-- app scripts -->
   <script src="script.js" type="text/javascript" charset="utf-8"></script>
+  <script src="app/toastr/toastr.js" type="text/javascript" charset="utf-8"></script>
   
 </head>
 <body ng-app="submitApp">
@@ -37,7 +40,8 @@
       <input type="checkbox"> Check me out
     </label>
   </div>
-  <button class="btn btn-default">Submit</button>
+  <button class="btn btn-default btn-submit" data-loading-text="Saving..." >Submit</button>
+  <toastr></toastr>
 </form> 
 </div>
 </body>
