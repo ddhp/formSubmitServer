@@ -4,22 +4,22 @@ var app = express();
 var server = require("http").createServer(app)
 var bodyParser = require('body-parser')
 
-var jsonParser = bodyParser.json();
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
-var util = require('util');
-var formidable = require('formidable')
-var form = new formidable.IncomingForm();
+// require db facility
+var db = require('./db');
 
 app.post('/user', urlencodedParser, function (req, res) {
   var email = req.body.email;
   var password = req.body.password;
-  console.log(email, password);
+  console.log('saving ' + email + ' ' + password + ' into db');
   // save to db
   db.run('INSERT INTO "user" (email, password) VALUES ("' + email + '", "' + password + '")', function (err, r) {
     if (err) {
       res.status(500).send('stg wrong with db');
     } else {
-      res.status(200).send('successful');
+      setTimeout(function () {
+        res.status(200).send('successful');
+      }, 4000);
     }
   });
 })
@@ -44,35 +44,3 @@ console.log('app start listen to port 3000');
 baseDir = path.normalize(__dirname + "/..");
 app.use(express.static(baseDir));
 
-// db implementation
-// check db file existense, if not create one
-var fs = require('fs');
-var file = baseDir + '/' + 'formsubmit.db';
-console.log(file);
-var exists = fs.existsSync(file);
-console.log(exists);
-
-if (!exists) {
-  console.log('db file doesn\'t exist, create one');
-  fs.openSync(file, 'w');
-}
-
-var sqlite3 = require("sqlite3").verbose();
-// load file and create db
-var db = new sqlite3.Database(file);
-
-db.serialize(function () {
-  if (!exists) {
-    console.log('db just created, add a table to it');
-    db.run("CREATE TABLE user (email TEXT, password TEXT)", function (err) {
-      if (!err) {
-        console.log('create table success');
-      } else {
-        console.log(err);
-      }
-    });
-
-  }
-})
-
-// db.close();
