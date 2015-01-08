@@ -3,8 +3,8 @@
 var fs = require('fs'),
     path = require('path'),
     baseDir = path.normalize(__dirname + "/.."),
-    file = baseDir + '/' + 'formsubmit.db';
-    exists = fs.existsSync(file),
+    file = baseDir + '/db/' + 'formsubmit.db',
+    exists = fs.existsSync(file);
 console.log('db file:' , file);
 
 if (!exists) {

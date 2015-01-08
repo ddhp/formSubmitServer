@@ -8,6 +8,12 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 // require db facility
 var db = require('./db');
 
+// roughly allow cors request
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  next();
+});
+
 app.post('/user', urlencodedParser, function (req, res) {
   var email = req.body.email;
   var password = req.body.password;
@@ -35,7 +41,6 @@ app.get('/user', function (req, res) {
     }
   }) 
 })
-
 
 server.listen(3000);
 console.log('app start listen to port 3000');
