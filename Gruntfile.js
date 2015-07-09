@@ -14,18 +14,34 @@ module.exports = function (grunt) {
 
     copy: {
       serve: {
-        files: [{
+        files: 
+        [{
           expand: true,
           cwd: 'app/scripts/',
           src: '**/*.js',
           dest: 'public/scripts'
+        },
+        {
+          expand: true,
+          cwd: 'bower_components/',
+          src: '**/*.js',
+          dest: 'public/bower_components'
         }]
       } 
+    },
+
+    wiredep: {
+      js: {
+        src: 'app/views/**/*.jade',
+        ignorePath: /^(\/|\.+(?!\/[^\.]))+\.+/,
+        devDependencies: true
+      }
     }
   });
 
   grunt.registerTask('serve', [
     'clean:serve',
-    'copy:serve'
+    'copy:serve',
+    'wiredep'
   ]);
 };
