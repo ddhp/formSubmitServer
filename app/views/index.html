@@ -11,11 +11,27 @@
   <!-- app scripts -->
   <script src="script.js" type="text/javascript" charset="utf-8"></script>
   <script src="app/toastr/toastr.js" type="text/javascript" charset="utf-8"></script>
+
+  <style type="text/css" media="all">
+.loading {
+  background-color: black;
+}
+  </style>
   
 </head>
 <body ng-app="submitApp">
 <div class="container" ng-controller="IndexCtrl">
   <h3>Simple Form Submit</h3>
+  <div class="loading">
+    <img src="app/images/loading/loading-balls.svg" alt="Loading icon" />
+    <img src="app/images/loading/loading-bars.svg" alt="Loading icon" />
+    <img src="app/images/loading/loading-bubbles.svg" alt="Loading icon" />
+    <img src="app/images/loading/loading-cubes.svg" alt="Loading icon" />
+    <img src="app/images/loading/loading-cylon.svg" alt="Loading icon" />
+    <img src="app/images/loading/loading-spin.svg" alt="Loading icon" />
+    <img src="app/images/loading/loading-spinning-bubbles.svg" alt="Loading icon" />
+    <img src="app/images/loading/loading-spokes.svg" alt="Loading icon" />
+  </div>
   <ul>
     <li ng-repeat="user in users">
       <p>{{user.email}} {{user.password}}</p>
