@@ -1,6 +1,7 @@
 html
-head
   include ./includes/head.jade
-body
-  h1!= message
-  include ./includes/deps.jade
+  body(ng-app='submitApp')
+    div(class='container')
+      h1!= message
+      include ./includes/deps.jade
+      include ./form.jade

@@ -12,26 +12,27 @@ angular.module('submitApp', [])
       console.log(data);
     });
 
-    $scope.submit =  function () {
-      $('.btn-submit').prop('disabled', true).html('Saving...');
+    $scope.submit =  function (event) {
+      var submitBtn = angular.element(event.currentTarget).find('.btn-submit');
+      var submitUser;
+      submitBtn.prop('disabled', true).html('Saving...');
       console.log('submit with ', $scope.email, $scope.password);
-      var user = {
+      submitUser = {
         email: $scope.email,
         password: $scope.password
-      }
-      d = $.post('http://127.0.0.1:3000/user', user, {
-        contentType: 'application/json'
-      })
-      d.done(function (r) {
-        console.log('success');
-        $scope.users.push(user);
-        $scope.$apply();
-        $scope.$broadcast('toastr', 'SUCCESS');
-      }).fail(function (err) {
-        console.log('failed ', err);
-        $scope.$broadcast('toastr', 'FAILED');
-      }).always(function () {
-        $('.btn-submit').prop('disabled', false).html('Submit');
-      });
+      };
+
+      $http.post('/user', submitUser)
+        .success(function(res) {
+          console.log('success');
+          $scope.users.push(submitUser);
+          submitBtn.prop('disabled', false).html('Submit');
+          $scope.$broadcast('toastr', 'SUCCESS');
+        })
+        .error(function(err) {
+          console.log('failed ', err);
+          submitBtn.prop('disabled', false).html('Submit');
+          $scope.$broadcast('toastr', 'FAILED');
+        });
     };
-  }])
+  }]);

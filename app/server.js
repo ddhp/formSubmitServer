@@ -12,11 +12,13 @@ app.set('view engine', 'jade');
 var baseDir = path.normalize(path.join(__dirname, '../public'));
 app.use(express.static(baseDir));
 
-var urlencodedParser = bodyParser.urlencoded({ extended: false })
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
+var jsonParser = bodyParser.json();
+
 // require db facility
 var db = require('./db');
 
-app.post('/user', urlencodedParser, function (req, res) {
+app.post('/user', jsonParser, function (req, res) {
   var email = req.body.email;
   var password = req.body.password;
   console.log('saving ' + email + ' ' + password + ' into db');

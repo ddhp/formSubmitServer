@@ -8,6 +8,17 @@ module.exports = function (grunt) {
   require('time-grunt')(grunt);
 
   grunt.initConfig({
+    watch: {
+      scripts: {
+        files: 'app/scripts/**/*.js',
+        tasks: ['jshint', 'copy:serve']
+      }
+    },
+
+    jshint: {
+      all: ['app/scripts/**/*.js']
+    },
+
     clean: {
       serve: ['public']
     },
@@ -18,7 +29,8 @@ module.exports = function (grunt) {
         [{
           expand: true,
           cwd: 'app/scripts/',
-          src: '**/*.js',
+          // not only .js also .html will be in directives folder
+          src: '**/*',
           dest: 'public/scripts'
         },
         {
@@ -26,8 +38,22 @@ module.exports = function (grunt) {
           cwd: 'bower_components/',
           src: '**/*.js',
           dest: 'public/bower_components'
+        },
+        {
+          expand: true,
+          cwd: 'app/images',
+          src: '**/*',
+          dest: 'public/images'
         }]
       } 
+    },
+
+    sass: {
+      serve: {
+        files: {
+          'public/styles/app.css': 'app/styles/app.scss'
+        }
+      }
     },
 
     wiredep: {
@@ -41,7 +67,10 @@ module.exports = function (grunt) {
 
   grunt.registerTask('serve', [
     'clean:serve',
+    'jshint',
     'copy:serve',
-    'wiredep'
+    'sass:serve',
+    'wiredep',
+    'watch'
   ]);
 };

@@ -1,7 +1,6 @@
-'use strict';
-
 angular.module('submitApp')
   .directive('toastr', ['$interval', function ($interval) {
+    'use strict';
     return {
       restrict: 'E',
       scope: {},
@@ -14,7 +13,7 @@ angular.module('submitApp')
           $element.find('div').removeClass('hidden');
           $interval(function () {
             $element.find('div').addClass('hidden');
-            $interval.cancel(this)
+            $interval.cancel(this);
           }, 2000);
           
           switch (type) {
@@ -27,9 +26,9 @@ angular.module('submitApp')
             default:
               $scope.class = 'bg-primary';
           }
-          $scope.$apply();
+          // $scope.$apply();
         });
       },
-      templateUrl: 'app/toastr/toastr.html'
-    }
+      templateUrl: 'scripts/directives/toastr/toastr.html'
+    };
   }]);

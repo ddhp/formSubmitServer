@@ -3,3 +3,4 @@ formsubmit.db
 npm-debug.log
 public/
 bower_components/
+.sass-cache/
