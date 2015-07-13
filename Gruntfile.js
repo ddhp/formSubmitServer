@@ -7,16 +7,22 @@ module.exports = function (grunt) {
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
 
+  var config = {
+    path: 'app/client'
+  };
+
   grunt.initConfig({
+    config: config,
+
     watch: {
       scripts: {
-        files: 'app/scripts/**/*.js',
+        files: '<%= config.path %>/scripts/**/*.js',
         tasks: ['jshint', 'copy:serve']
       }
     },
 
     jshint: {
-      all: ['app/scripts/**/*.js']
+      all: ['<%= config.path %>/scripts/**/*.js']
     },
 
     clean: {
@@ -28,7 +34,7 @@ module.exports = function (grunt) {
         files: 
         [{
           expand: true,
-          cwd: 'app/scripts/',
+          cwd: '<%= config.path %>/scripts/',
           // not only .js also .html will be in directives folder
           src: '**/*',
           dest: 'public/scripts'
@@ -41,7 +47,7 @@ module.exports = function (grunt) {
         },
         {
           expand: true,
-          cwd: 'app/images',
+          cwd: '<%= config.path %>/images',
           src: '**/*',
           dest: 'public/images'
         }]
@@ -51,7 +57,7 @@ module.exports = function (grunt) {
     sass: {
       serve: {
         files: {
-          'public/styles/app.css': 'app/styles/app.scss'
+          'public/styles/app.css': '<%= config.path %>/styles/app.scss'
         }
       }
     },

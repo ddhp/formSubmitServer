@@ -5,11 +5,11 @@ var bodyParser = require('body-parser')
 var app = express();
 var server = require("http").createServer(app)
 
-app.set('views', './app/views');
+app.set('views', './app/server/views');
 app.set('view engine', 'jade');
 
 // set base path
-var baseDir = path.normalize(path.join(__dirname, '../public'));
+var baseDir = path.normalize(path.join(__dirname, '../../public'));
 app.use(express.static(baseDir));
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
