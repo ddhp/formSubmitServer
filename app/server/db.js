@@ -7,17 +7,14 @@ var fs = require('fs'),
     exists = fs.existsSync(file),
 console.log('db file:' , file);
 
-if (!exists) {
-  console.log('db file doesn\'t exist, create one');
-  fs.openSync(file, 'w');
-}
-
 var sqlite3 = require("sqlite3").verbose();
 // load file and create db
 var db = new sqlite3.Database(file);
 
-db.serialize(function () {
-  if (!exists) {
+if (!exists) {
+  console.log('db file doesn\'t exist, create one');
+  fs.openSync(file, 'w');
+  db.serialize(function () {
     console.log('db just created, add a table to it');
     db.run("CREATE TABLE user (email TEXT, password TEXT)", function (err) {
       if (!err) {
@@ -26,9 +23,8 @@ db.serialize(function () {
         console.log(err);
       }
     });
-
-  }
-})
+  })
+}
 
 // db.close();
 module.exports = db
