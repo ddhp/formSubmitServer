@@ -7,7 +7,7 @@ var jsonParser = bodyParser.json();
 var User = require('../models/User');
 
 function initialize(app) {
-  app.post('/user', function (req, res, next) {
+  app.post('/users', function (req, res, next) {
     var email = req.body.email;
     var password = req.body.password;
     var result;
@@ -24,7 +24,7 @@ function initialize(app) {
       });
   })
 
-  app.get('/user', function (req, res, next) {
+  app.get('/users', function (req, res, next) {
     var query = req.query;
     var defer;
     if ('email' in query) {

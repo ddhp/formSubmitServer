@@ -5,7 +5,7 @@ angular.module('submitApp', [])
 
     $scope.users = [];
 
-    $http.get('/user').success(function (data, status) {
+    $http.get('/users').success(function (data, status) {
       console.log(data);
       $scope.users = data.users;
     }).error(function (data, status) {
@@ -22,7 +22,7 @@ angular.module('submitApp', [])
         password: $scope.password
       };
 
-      $http.post('/user', submitUser)
+      $http.post('/users', submitUser)
         .success(function(res) {
           console.log('success');
           $scope.users.push(submitUser);
