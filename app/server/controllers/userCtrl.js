@@ -17,10 +17,10 @@ function initialize(app) {
       email: email,
       password: password
     }).then(function(err) {
-        if (err) {
-          return next(err);
-        }
         res.status(200).send('works');
+      })
+      .fail(function(err) {
+        return next(err);
       });
   })
 
@@ -33,13 +33,13 @@ function initialize(app) {
       defer = User.findAll()
     }
     defer
-      .then(function(err, users) {
-        if (err) {
-          return next(err);
-        }
+      .then(function(users) {
         console.log(users);
-        resObj = {'users': users};
+        resObj = {'users': User.genRes(users)};
         res.status(200).send(resObj);
+      })
+      .fail(function(err) {
+        next(err);
       });
   });
 }

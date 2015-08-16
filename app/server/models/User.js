@@ -2,7 +2,33 @@ var q = require('q');
 var db = require('../db');
 var shortid = require('shortid');
 
+// keys which would return as response
+var resKeys = ['id', 'email', 'password'];
+
+// User class
+function User(email, password) {
+  this.email = email;
+  this.password = password;
+  this.validatePassword = function(password) {
+    if (password === this.password) {
+      return true;
+    }
+    return false;
+  };
+}
+
 module.exports = {
+  genRes: function(users) {
+    var res = Array.prototype.map.call(users, function(user) {
+      var resUser = {};
+      Array.prototype.forEach.call(resKeys, function(key) {
+        resUser[key] = user[key];
+      });
+      return resUser;
+    });
+    return res;
+  },
+
   create: function(data) {
     var defer = q.defer();
     var id = shortid.generate();
@@ -29,7 +55,7 @@ module.exports = {
     db.run(commandString, function (err, r) {
       var res = {};
       if (err) {
-        defer.resolve(err);
+        defer.reject(err);
       } else {
         defer.resolve();
       }
@@ -41,9 +67,9 @@ module.exports = {
     var defer = q.defer();
     db.all('SELECT * FROM user', function (err, users) {
       if (err) {
-        defer.resolve(err);
+        defer.reject(err);
       } else {
-        defer.resolve(null, users);
+        defer.resolve(users);
       }
     });
     return defer.promise;
@@ -54,11 +80,14 @@ module.exports = {
     var cmdString = 'SELECT * FROM user' + ' WHERE email="' + email + '"' ;
     console.log(cmdString);
     db.all(cmdString, function(err, users) {
+      users = Array.prototype.map.call(users, function(user) {
+        return new User(user.email, user.password);
+      });
       console.log(err, users);
       if (err) {
-        defer.resolve(err);
+        defer.reject(err);
       } else {
-        defer.resolve(null, users);
+        defer.resolve(users);
       }
     });
     return defer.promise;
