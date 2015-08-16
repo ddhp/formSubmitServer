@@ -16,11 +16,11 @@ function initialize(app) {
     User.create({
       email: email,
       password: password
-    }).then(function() {
+    }).then(function(err) {
+        if (err) {
+          return next(err);
+        }
         res.status(200).send('works');
-      })
-      .fail(function(err) {
-        next(err);
       });
   })
 
@@ -33,13 +33,13 @@ function initialize(app) {
       defer = User.findAll()
     }
     defer
-      .then(function(users) {
+      .then(function(err, users) {
+        if (err) {
+          return next(err);
+        }
         console.log(users);
         resObj = {'users': users};
         res.status(200).send(resObj);
-      })
-      .fail(function(err) {
-        next(err);
       });
   });
 }

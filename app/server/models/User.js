@@ -29,7 +29,7 @@ module.exports = {
     db.run(commandString, function (err, r) {
       var res = {};
       if (err) {
-        defer.reject(err);
+        defer.resolve(err);
       } else {
         defer.resolve();
       }
@@ -41,9 +41,9 @@ module.exports = {
     var defer = q.defer();
     db.all('SELECT * FROM user', function (err, users) {
       if (err) {
-        defer.reject(err);
+        defer.resolve(err);
       } else {
-        defer.resolve(users);
+        defer.resolve(null, users);
       }
     });
     return defer.promise;
@@ -56,9 +56,9 @@ module.exports = {
     db.all(cmdString, function(err, users) {
       console.log(err, users);
       if (err) {
-        defer.reject(err);
+        defer.resolve(err);
       } else {
-        defer.resolve(users);
+        defer.resolve(null, users);
       }
     });
     return defer.promise;
