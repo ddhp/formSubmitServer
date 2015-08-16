@@ -29,6 +29,9 @@ function initialize(app) {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
 
+  // use session
+  app.use(session({ secrets: 'my secrets key' }));
+
   app.use(function(err, req, res, next) {
     console.log(err);
     res.status(500).send(err);

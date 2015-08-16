@@ -29,6 +29,10 @@ module.exports = {
     return res;
   },
 
+  // TODO: 
+  //  - check if user is already created
+  //  - md5 password
+  //  - md5 email to be id
   create: function(data) {
     var defer = q.defer();
     var id = shortid.generate();
