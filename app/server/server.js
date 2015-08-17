@@ -6,10 +6,18 @@ var server = require("http").createServer(app)
 app.set('views', './app/server/views');
 app.set('view engine', 'jade');
 
+// require('./middlewares/general').initialize(app);
 
-require('./middlewares').initialize(app);
-require('./controllers/staticCtrl').initialize(app);
-require('./controllers/userCtrl').initialize(app);
+// general middlewares
+app.use('/', require('./middlewares/general'));
+
+// static middlewares
+app.use('/', require('./middlewares/static'));
+app.use('/', require('./controllers/staticCtrl'));
+
+// api middlewares
+app.use('/api', require('./middlewares/api'));
+app.use('/api', require('./controllers/userCtrl'));
 
 server.listen(3000);
 console.log('app start listen to port 3000');
