@@ -5,4 +5,12 @@ router.get('/', function (req, res) {
   res.render('index', { title: 'Hey', message: 'Hello there!'});
 });
 
+router.get('/signup', function (req, res) {
+  res.render('index', { title: 'Hey', message: 'Hello there!'});
+});
+
+router.get('/login', function (req, res) {
+  res.render('login', { title: 'Hey', message: 'Please login here!'});
+});
+
 module.exports = router;
