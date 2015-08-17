@@ -30,7 +30,7 @@ function initialize(app) {
   app.use(bodyParser.urlencoded({ extended: false }));
 
   // use session
-  app.use(session({ secrets: 'my secrets key' }));
+  // app.use(express.session({ secrets: 'my secrets key' }));
 
   app.use(function(err, req, res, next) {
     console.log(err);
