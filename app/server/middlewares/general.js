@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var session = require('express-session');
 
 router.use(function(req, res, next) {
   console.log('requested url: ' + req.originalUrl + ' ' + Date.now());
@@ -10,7 +11,11 @@ router.use(function(req, res, next) {
 });
 
 // use session
-// app.use(express.session({ secrets: 'my secrets key' }));
+router.use(session({ 
+  secret: 'my secrets key',
+  resave: false,
+  saveUninitialized: true
+}));
 
 router.use(function(err, req, res, next) {
   console.log(err);

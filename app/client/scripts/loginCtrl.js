@@ -14,7 +14,7 @@ angular.module('myApp')
         .success(function(res) {
           // console.log('success');
           // $scope.users.push(submitUser);
-          // submitBtn.prop('disabled', false).html('Submit');
+          submitBtn.prop('disabled', false).html('Submit');
           // $scope.$broadcast('toastr', 'SUCCESS');
         })
         .error(function(err) {

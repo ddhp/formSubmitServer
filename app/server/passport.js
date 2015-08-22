@@ -1,13 +1,13 @@
 var passport = require('passport');
-var localStrategy = requrie('passport-local').Strategy;
-var User = require('../models/User');
+var LocalStrategy = require('passport-local').Strategy;
+var User = require('./models/User');
 
-passport.use(new LocalStrategy(function(username, password, done) {
-  User.findByEmail(username).then(function(err, users) {
-    if (err) {
-      return done(err);
-    }
+passport.use(new LocalStrategy({
+  usernameField: 'email'
+}, function(username, password, done) {
+  User.findByEmail(username).then(function(users) {
     if (!users || users.length === 0) {
+      console.log('incorrect username');
       return done(null, false, {message: 'Incorrect username'});
     }
     var user = users[0];
@@ -16,6 +16,10 @@ passport.use(new LocalStrategy(function(username, password, done) {
     }
 
     return done(null, user);
+  }, function(err) {
+    if (err) {
+      return done(err);
+    }
   });
 }));
 
@@ -24,7 +28,7 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-  User.findById()
+  User.findById(id)
     .then(function(user) {
       done(null, user)
     })

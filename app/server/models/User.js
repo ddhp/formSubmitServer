@@ -6,7 +6,8 @@ var shortid = require('shortid');
 var resKeys = ['id', 'email', 'password'];
 
 // User class
-function User(email, password) {
+function User(id, email, password) {
+  this.id = id;
   this.email = email;
   this.password = password;
   this.validatePassword = function(password) {
@@ -55,6 +56,7 @@ module.exports = {
       }
       return valueString;
     }, valueString);
+    console.log(valueString);
     commandString = 'INSERT INTO "user" (' + keyString + ') VALUES (' + valueString + ')';
     db.run(commandString, function (err, r) {
       var res = {};
@@ -79,13 +81,31 @@ module.exports = {
     return defer.promise;
   },
 
+  findById: function(id) {
+    var defer = q.defer();
+    var cmdString = 'SELECT * FROM user' + ' WHERE id="' + id + '"' ;
+    console.log(cmdString);
+    db.all(cmdString, function(err, users) {
+      users = Array.prototype.map.call(users, function(user) {
+        return new User(user.id, user.email, user.password);
+      });
+      console.log(err, users);
+      if (err) {
+        defer.reject(err);
+      } else {
+        defer.resolve(users);
+      }
+    });
+    return defer.promise;
+  },
+
   findByEmail: function(email) {
     var defer = q.defer();
     var cmdString = 'SELECT * FROM user' + ' WHERE email="' + email + '"' ;
     console.log(cmdString);
     db.all(cmdString, function(err, users) {
       users = Array.prototype.map.call(users, function(user) {
-        return new User(user.email, user.password);
+        return new User(user.id, user.email, user.password);
       });
       console.log(err, users);
       if (err) {
