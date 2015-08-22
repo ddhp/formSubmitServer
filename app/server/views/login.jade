@@ -1,7 +1,8 @@
 html
   include ./includes/head.jade
-  body(ng-app='app')
+  body(ng-app='myApp')
     div(class='container')
       h1!= message
       include ./includes/deps.jade
-      include ./form.jade
+      h3!= h3Message
+      include ./form-login.jade
