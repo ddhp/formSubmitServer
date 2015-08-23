@@ -11,8 +11,17 @@ router.post('/users', function (req, res, next) {
   User.create({
     email: email,
     password: password
-  }).then(function(err) {
-      res.status(200).send('works');
+  }).then(function(user) {
+      // it possiblely resolve with 400 condition
+      if (typeof user === 'string') {
+        return res.status(400).send(user);
+      }
+      req.logIn(user, function(err) {
+        if (err) {
+          return next(err);
+        }
+        res.status(200).send('works');
+      });
     })
     .fail(function(err) {
       return next(err);

@@ -1,5 +1,5 @@
 angular.module('myApp')
-  .controller('LoginCtrl', function($scope, $http, $location, $window) {
+  .controller('LoginCtrl', function($scope, $http, $window) {
     $scope.submit =  function (event) {
       var submitBtn = angular.element(event.currentTarget).find('.btn-submit');
       var submitUser;
@@ -12,8 +12,6 @@ angular.module('myApp')
 
       $http.post('api/login', submitUser)
         .success(function(res) {
-          // console.log('success');
-          // $scope.users.push(submitUser);
           $scope.$broadcast('toastr', 'SUCCESS');
           submitBtn.prop('disabled', false).html('Submit');
           $window.location.href = $window.location.protocol + 
