@@ -41,12 +41,6 @@ module.exports = function (grunt) {
         },
         {
           expand: true,
-          cwd: 'bower_components/',
-          src: '**/*.js',
-          dest: 'public/bower_components'
-        },
-        {
-          expand: true,
           cwd: '<%= config.path %>/images',
           src: '**/*',
           dest: 'public/images'

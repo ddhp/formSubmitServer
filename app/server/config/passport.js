@@ -1,6 +1,6 @@
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-var User = require('./models/User');
+var User = require('../models/User');
 
 passport.use(new LocalStrategy({
   usernameField: 'email'
@@ -38,9 +38,9 @@ passport.deserializeUser(function(id, done) {
     });
 });
 
-function initialize(app) {
-  app.use(passport.initialize());
-  app.use(passport.session());
+function initialize(router) {
+  router.use(passport.initialize());
+  router.use(passport.session());
 }
 
 module.exports = {
