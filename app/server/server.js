@@ -20,8 +20,8 @@ app.use('/', require('./controllers/appCtrl'));
 
 // api middlewares
 app.use('/api', require('./config/api'));
-app.use('/api', require('./controllers/userCtrl'));
-app.use('/api', require('./controllers/loginCtrl'));
+app.use('/api', require('./controllers/api/userCtrl'));
+app.use('/api', require('./controllers/api/loginCtrl'));
 
 // // init passport session after all middlewares
 // require('./passport').initialize(app);

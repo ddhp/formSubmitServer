@@ -4,10 +4,6 @@ div(ng-controller='signupCtrl')
   div(class='loading')
     img(src='/public/images/loading/loading-balls.svg')
 
-  ul
-    li(ng-repeat='user in users')
-      p {{user.email}} {{user.password}}
-
   form(role='form' ng-submit='submit($event)')
     div(class='form-group')
       label(for='exampleInputEmail1') Email address

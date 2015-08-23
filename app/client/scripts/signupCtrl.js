@@ -3,15 +3,6 @@ angular.module('myApp')
     $scope.name = "";
     $scope.password = "";
 
-    $scope.users = [];
-
-    $http.get('api/users').success(function (data, status) {
-      console.log(data);
-      $scope.users = data.users;
-    }).error(function (data, status) {
-      console.log(data);
-    });
-
     $scope.submit =  function (event) {
       var submitBtn = angular.element(event.currentTarget).find('.btn-submit');
       var submitUser;

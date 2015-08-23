@@ -18,7 +18,7 @@ angular.module('myApp')
           submitBtn.prop('disabled', false).html('Submit');
           $window.location.href = $window.location.protocol + 
             '//' + 
-            $window.location.host + '/signup';
+            $window.location.host + '/';
         })
         .error(function(err) {
           console.log('failed ', err);

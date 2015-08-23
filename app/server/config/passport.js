@@ -30,8 +30,8 @@ passport.serializeUser(function(user, done) {
 passport.deserializeUser(function(id, done) {
   console.log(id);
   User.findById(id)
-    .then(function(user) {
-      done(null, user)
+    .then(function(users) {
+      done(null, users[0]);
     })
     .fail(function(err) {
       done(err);
