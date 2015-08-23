@@ -7,17 +7,16 @@ router.post('/login', function(req, res, next) {
     if (err) {
       return next(err);
     }
-    // successRedirect: '/',
-    // failureRedirect: '/login',
-    // failuerFlash: true 
+    console.log(user);
+    console.log(info);
     if (!user) {
-      return res.redirect('/login');
+      return next(err);
     }
     req.logIn(user, function(err) {
       if (err) {
         return next(err);
       }
-      return res.redirect('/signup');
+      return res.status(200).send(user.genResponse());
     });
   })(req, res, next);
 });

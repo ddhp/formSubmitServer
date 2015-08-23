@@ -29,8 +29,8 @@ router.get('/users', function (req, res, next) {
   }
   defer
     .then(function(users) {
-      console.log(users);
-      resObj = {'users': User.genRes(users)};
+      console.log(User.genResponses(users));
+      resObj = {'users': User.genResponses(users)};
       res.status(200).send(resObj);
     })
     .fail(function(err) {

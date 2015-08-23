@@ -1,5 +1,17 @@
 angular.module('myApp')
-  .controller('LoginCtrl', function($scope, $http, $location, $window) {
+  .controller('signupCtrl', ['$scope', '$http', function ($scope, $http) {
+    $scope.name = "";
+    $scope.password = "";
+
+    $scope.users = [];
+
+    $http.get('api/users').success(function (data, status) {
+      console.log(data);
+      $scope.users = data.users;
+    }).error(function (data, status) {
+      console.log(data);
+    });
+
     $scope.submit =  function (event) {
       var submitBtn = angular.element(event.currentTarget).find('.btn-submit');
       var submitUser;
@@ -10,15 +22,12 @@ angular.module('myApp')
         password: $scope.password
       };
 
-      $http.post('api/login', submitUser)
+      $http.post('api/users', submitUser)
         .success(function(res) {
-          // console.log('success');
-          // $scope.users.push(submitUser);
-          $scope.$broadcast('toastr', 'SUCCESS');
+          console.log('success');
+          $scope.users.push(submitUser);
           submitBtn.prop('disabled', false).html('Submit');
-          $window.location.href = $window.location.protocol + 
-            '//' + 
-            $window.location.host + '/signup';
+          $scope.$broadcast('toastr', 'SUCCESS');
         })
         .error(function(err) {
           console.log('failed ', err);
@@ -26,4 +35,4 @@ angular.module('myApp')
           $scope.$broadcast('toastr', 'FAILED');
         });
     };
-  });
+  }]);

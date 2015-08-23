@@ -1,12 +1,13 @@
 var q = require('q');
 var db = require('../db');
 var shortid = require('shortid');
-
-// keys which would return as response
-var resKeys = ['id', 'email', 'password'];
+var moduleName = 'User';
 
 // User class
 function User(id, email, password) {
+  // keys which would return as response
+  var resKeys = ['id', 'email'];
+
   this.id = id;
   this.email = email;
   this.password = password;
@@ -16,18 +17,31 @@ function User(id, email, password) {
     }
     return false;
   };
+  this.genResponse = function() {
+    var res = {};
+    var self = this;
+    Array.prototype.forEach.call(resKeys, function(key) {
+      res[key] = self[key];
+    });
+    return res;
+  };
+}
+
+function createInstance(responses) {
+  return Array.prototype.map.call(responses, function(res) {
+    return new User(res.id, res.email, res.password);
+  });
+}
+
+function log(moduleName, functionName, msg) {
+  console.log(moduleName + '#' + functionName + ': ' + JSON.stringify(msg));
 }
 
 module.exports = {
-  genRes: function(users) {
-    var res = Array.prototype.map.call(users, function(user) {
-      var resUser = {};
-      Array.prototype.forEach.call(resKeys, function(key) {
-        resUser[key] = user[key];
-      });
-      return resUser;
+  genResponses: function(users) {
+    return Array.prototype.map.call(users, function(user) {
+      return user.genResponse();
     });
-    return res;
   },
 
   // TODO: 
@@ -56,7 +70,7 @@ module.exports = {
       }
       return valueString;
     }, valueString);
-    console.log(valueString);
+    log(moduleName, 'create', valueString);
     commandString = 'INSERT INTO "user" (' + keyString + ') VALUES (' + valueString + ')';
     db.run(commandString, function (err, r) {
       var res = {};
@@ -69,9 +83,13 @@ module.exports = {
     return defer.promise;
   },
 
-  findAll: function(cb) {
+  findAll: function() {
     var defer = q.defer();
-    db.all('SELECT * FROM user', function (err, users) {
+    var cmdString = 'SELECT * FROM user' ;
+    log(moduleName, 'findAll', cmdString);
+    db.all(cmdString, function (err, users) {
+      users = createInstance(users);
+      log(moduleName, 'findAll', users);
       if (err) {
         defer.reject(err);
       } else {
@@ -84,12 +102,10 @@ module.exports = {
   findById: function(id) {
     var defer = q.defer();
     var cmdString = 'SELECT * FROM user' + ' WHERE id="' + id + '"' ;
-    console.log(cmdString);
+    log(moduleName, 'findById', cmdString);
     db.all(cmdString, function(err, users) {
-      users = Array.prototype.map.call(users, function(user) {
-        return new User(user.id, user.email, user.password);
-      });
-      console.log(err, users);
+      users = createInstance(users);
+      log(moduleName, 'findById', users);
       if (err) {
         defer.reject(err);
       } else {
@@ -102,12 +118,10 @@ module.exports = {
   findByEmail: function(email) {
     var defer = q.defer();
     var cmdString = 'SELECT * FROM user' + ' WHERE email="' + email + '"' ;
-    console.log(cmdString);
+    log(moduleName, 'findByEmail', cmdString);
     db.all(cmdString, function(err, users) {
-      users = Array.prototype.map.call(users, function(user) {
-        return new User(user.id, user.email, user.password);
-      });
-      console.log(err, users);
+      users = createInstance(users);
+      log(moduleName, 'findByEmail', users);
       if (err) {
         defer.reject(err);
       } else {

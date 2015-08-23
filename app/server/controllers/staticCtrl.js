@@ -6,7 +6,7 @@ router.get('/', function (req, res) {
 });
 
 router.get('/signup', function (req, res) {
-  res.render('index', { title: 'Hey', message: 'Hello there!', h3Message: 'Sign up to MyApp'});
+  res.render('signup', { title: 'Hey', message: 'Hello there!', h3Message: 'Sign up to MyApp'});
 });
 
 router.get('/login', function (req, res) {

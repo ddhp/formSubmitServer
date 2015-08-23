@@ -4,7 +4,7 @@ div(ng-controller='LoginCtrl')
   div(class='loading')
     img(src='images/loading/loading-balls.svg')
 
-  form(role='form' ng-submit='submit($event)')
+  form(role='form' ng-submit='submit($event)' method='POST')
     div(class='form-group')
       label(for='exampleInputEmail1') Email address
       input(type='email' class='form-control' 

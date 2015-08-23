@@ -1,4 +1,4 @@
-angular.module('submitApp')
+angular.module('myApp')
   .directive('toastr', ['$interval', function ($interval) {
     'use strict';
     return {
