@@ -1,0 +1,24 @@
+
+div(ng-controller='LoginCtrl')
+  h3!= h3Message
+  div(class='loading')
+    img(src='images/loading/loading-balls.svg')
+
+  form(role='form' ng-submit='submit($event)' method='POST')
+    div(class='form-group')
+      label(for='exampleInputEmail1') Email address
+      input(type='email' class='form-control' 
+            id='exampleInputEmail1'
+            placeholder='Enter email'
+            ng-model='email')
+
+    div(class='form-group')
+      label(for='exampleInputPassword1') Password
+      input(type='password' class='form-control' 
+            id='exampleInputPassword1'
+            placeholder='Enter password'
+            ng-model='password')
+    
+    button(class='btn btn-default btn-submit'
+          data-loading-text='Saving...') Submit
+    toastr

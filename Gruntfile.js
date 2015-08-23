@@ -64,7 +64,7 @@ module.exports = function (grunt) {
 
     wiredep: {
       js: {
-        src: 'app/views/**/*.jade',
+        src: 'app/server/views/**/*.jade',
         ignorePath: /^(\/|\.+(?!\/[^\.]))+\.+/,
         devDependencies: true
       }

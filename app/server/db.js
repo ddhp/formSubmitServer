@@ -16,7 +16,7 @@ if (!exists) {
   fs.openSync(file, 'w');
   db.serialize(function () {
     console.log('db just created, add a table to it');
-    db.run("CREATE TABLE user (email TEXT, password TEXT)", function (err) {
+    db.run("CREATE TABLE user (id TEXT, email TEXT, password TEXT)", function (err) {
       if (!err) {
         console.log('create table success');
       } else {

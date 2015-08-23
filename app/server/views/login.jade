@@ -2,8 +2,6 @@ html
   include ./includes/head.jade
   body(ng-app='myApp')
     div(class='container')
+      h1!= message
       include ./includes/deps.jade
-      div(ng-controller='IndexCtrl')
-        h1!= message
-        p Index page
-        p!= name
+      include ./form-login.jade
