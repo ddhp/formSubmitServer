@@ -16,6 +16,7 @@ router.post('/login', function(req, res, next) {
       if (err) {
         return next(err);
       }
+      console.log('loginuser');
       return res.status(200).send(user.genResponse());
     });
   })(req, res, next);
