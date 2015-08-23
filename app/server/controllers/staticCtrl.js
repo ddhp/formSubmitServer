@@ -2,7 +2,8 @@ var express = require('express');
 var router = express.Router();
 
 router.get('/', function (req, res) {
-  res.render('index', { title: 'Hey', message: 'Hello there!', h3Message: 'Sign up to MyApp'});
+  var name = req.user && req.user.name || '';
+  res.render('index', { title: 'Hey', message: 'Hello there!', h3Message: 'Sign up to MyApp', name: name});
 });
 
 router.get('/signup', function (req, res) {
