@@ -29,6 +29,6 @@ angular.module('myApp')
           // $scope.$apply();
         });
       },
-      templateUrl: 'scripts/directives/toastr/toastr.html'
+      templateUrl: 'public/scripts/directives/toastr/toastr.html'
     };
   }]);

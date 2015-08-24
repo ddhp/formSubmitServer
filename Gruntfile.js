@@ -26,7 +26,7 @@ module.exports = function (grunt) {
     },
 
     clean: {
-      serve: ['public']
+      serve: ['public/*', '!public/bower_components/**']
     },
 
     copy: {

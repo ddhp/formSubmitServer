@@ -44,8 +44,36 @@ module.exports = {
     });
   },
 
+  isUserCreated: function(id, email) {
+    var defer = q.defer();
+    var self = this;
+    this.findByEmail(email)
+      .then(function(users) {
+        console.log('test email created');
+        console.log(users);
+        if (users.length > 0) {
+          return defer.resolve('email ' + email + ' is exists');
+        }
+        self.findById(id)
+          .then(function(users) {
+            console.log('test id created');
+            console.log(users);
+            if (users.length > 0) {
+              return defer.resolve('id ' + id + ' is exists');
+            }
+            defer.resolve();
+          })
+          .fail(function(err) {
+            defer.reject(err);
+          });
+      })
+      .fail(function() {
+        defer.reject(err);
+      });
+    return defer.promise;
+  },
+
   // TODO: 
-  //  - check if user is already created
   //  - md5 password
   //  - md5 email to be id
   create: function(data) {
@@ -56,30 +84,52 @@ module.exports = {
     var keyString;
     var valueString = '';
     var commandString;
-    for (key in data) {
-      keyArr.push(key);
-      valueArr.push(data[key]);
+
+    if (!data.email) {
+      defer.resolve('email is missing');
     }
-    keyString = keyArr.join(', ');
-    valueString = Array.prototype.reduce.call(valueArr, function(valueString, str, idx) {
-      valueString = valueString + '"' + str;
-      if (idx < valueArr.length -1) {
-        valueString += '", ';
-      } else {
-        valueString += '"';
-      }
-      return valueString;
-    }, valueString);
-    log(moduleName, 'create', valueString);
-    commandString = 'INSERT INTO "user" (' + keyString + ') VALUES (' + valueString + ')';
-    db.run(commandString, function (err, r) {
-      var res = {};
-      if (err) {
+
+    if (!data.password) {
+      defer.resove('password is missing');
+    }
+
+    this.isUserCreated(id, data.email)
+      /**
+       * even 400 condition will go to then
+       * only db err will go fail callback
+       *
+       */
+      .then(function(errMsg) {
+        if (errMsg) {
+          return defer.resolve(msg);
+        }
+        for (key in data) {
+          keyArr.push(key);
+          valueArr.push(data[key]);
+        }
+        keyString = keyArr.join(', ');
+        valueString = Array.prototype.reduce.call(valueArr, function(valueString, str, idx) {
+          valueString = valueString + '"' + str;
+          if (idx < valueArr.length -1) {
+            valueString += '", ';
+          } else {
+            valueString += '"';
+          }
+          return valueString;
+        }, valueString);
+        log(moduleName, 'create', valueString);
+        commandString = 'INSERT INTO "user" (' + keyString + ') VALUES (' + valueString + ')';
+        db.run(commandString, function (err, r) {
+          if (err) {
+            defer.reject(err);
+          } else {
+            defer.resolve(new User(id, data.email, data.password));
+          }
+        });
+      })
+      .fail(function(err) {
         defer.reject(err);
-      } else {
-        defer.resolve();
-      }
-    });
+      });
     return defer.promise;
   },
 

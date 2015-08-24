@@ -5,5 +5,15 @@ html
       include ./includes/deps.jade
       div(ng-controller='IndexCtrl')
         h1!= message
-        p Index page
-        p!= name
+
+        p Available users
+
+        ul
+          li(ng-repeat='user in users')
+            p {{user.email}} {{user.password}}
+
+        div(ng-if='isLogin')
+          p You are login as #[span {{ name }}]
+
+        div(ng-if='!isLogin')
+          p You are not login, please #[a(href="/login") login].

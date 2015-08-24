@@ -1,16 +1,7 @@
 angular.module('myApp')
-  .controller('signupCtrl', ['$scope', '$http', function ($scope, $http) {
+  .controller('signupCtrl', ['$scope', '$http', '$window', function ($scope, $http, $window) {
     $scope.name = "";
     $scope.password = "";
-
-    $scope.users = [];
-
-    $http.get('api/users').success(function (data, status) {
-      console.log(data);
-      $scope.users = data.users;
-    }).error(function (data, status) {
-      console.log(data);
-    });
 
     $scope.submit =  function (event) {
       var submitBtn = angular.element(event.currentTarget).find('.btn-submit');
@@ -25,9 +16,11 @@ angular.module('myApp')
       $http.post('api/users', submitUser)
         .success(function(res) {
           console.log('success');
-          $scope.users.push(submitUser);
           submitBtn.prop('disabled', false).html('Submit');
           $scope.$broadcast('toastr', 'SUCCESS');
+          $window.location.href = $window.location.protocol + 
+            '//' + 
+            $window.location.host + '/';
         })
         .error(function(err) {
           console.log('failed ', err);

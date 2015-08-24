@@ -1,6 +1,7 @@
 var express = require('express');
 var passport = require('passport');
 var router = express.Router();
+var User = require('../../models/User');
 
 router.post('/login', function(req, res, next) {
   passport.authenticate('local', function(err, user, info) {
@@ -10,7 +11,7 @@ router.post('/login', function(req, res, next) {
     console.log(user);
     console.log(info);
     if (!user) {
-      return next(err);
+      return res.status(400).send(info.message);
     }
     req.logIn(user, function(err) {
       if (err) {
@@ -20,6 +21,17 @@ router.post('/login', function(req, res, next) {
       return res.status(200).send(user.genResponse());
     });
   })(req, res, next);
+});
+
+router.get('/me', function(req, res, next) {
+  if (req.user) {
+    console.log(req.user);
+    return res.status(200).send({
+      users: [req.user.genResponse()]
+    });
+  } else {
+    return res.status(401).send();
+  }
 });
 
 module.exports = router;
